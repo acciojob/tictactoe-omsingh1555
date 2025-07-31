@@ -1,129 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tic Tac Toe</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f0f0f0;
-    }
-    .container {
-      max-width: 400px;
-      margin: 50px auto;
-      padding: 20px;
-      background: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 10px;
-    }
-    .input-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .board {
-      display: none;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
-      margin-top: 20px;
-    }
-    .cell {
-      width: 100px;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2em;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      user-select: none;
-    }
-    .message {
-      margin-top: 15px;
-      font-weight: bold;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <div class="input-container">
-      <input type="text" id="player-1" placeholder="Enter Player1 name">
-      <input type="text" id="player-2" placeholder="Enter Player2 name">
-      <button id="submit">Submit</button>
+    <h1>Tic Tac Toe</h1>
+
+    <div id="player-form">
+      <label for="player-1">Player 1</label>
+      <input id="player-1" type="text" placeholder="enter name" />
+      <label for="player-2">Player 2</label>
+      <input id="player-2" type="text" placeholder="enter name" />
+      <button id="submit">Start Game</button>
     </div>
-    <h1 style="display:none;">Tic Tac Toe</h1>
-    <div class="message"></div>
-    <div class="board" id="board">
-      <div id="1" class="cell"></div>
-      <div id="2" class="cell"></div>
-      <div id="3" class="cell"></div>
-      <div id="4" class="cell"></div>
-      <div id="5" class="cell"></div>
-      <div id="6" class="cell"></div>
-      <div id="7" class="cell"></div>
-      <div id="8" class="cell"></div>
-      <div id="9" class="cell"></div>
+
+    <div id="game" style="display:none;">
+      <div class="message"></div>
+      <div class="board">
+        <div class="cell" id="1"></div>
+        <div class="cell" id="2"></div>
+        <div class="cell" id="3"></div>
+        <div class="cell" id="4"></div>
+        <div class="cell" id="5"></div>
+        <div class="cell" id="6"></div>
+        <div class="cell" id="7"></div>
+        <div class="cell" id="8"></div>
+        <div class="cell" id="9"></div>
+      </div>
     </div>
   </div>
 
-  <script>
-    const submitBtn = document.getElementById("submit");
-    const player1Input = document.getElementById("player-1");
-    const player2Input = document.getElementById("player-2");
-    const board = document.getElementById("board");
-    const cells = document.querySelectorAll(".cell");
-    const messageDiv = document.querySelector(".message");
-    const heading = document.querySelector("h1");
-
-    let player1 = "";
-    let player2 = "";
-    let currentPlayer = "x";
-    let gameActive = false;
-    let gameState = ["", "", "", "", "", "", "", "", ""];
-
-    const winConditions = [
-      [0,1,2],[3,4,5],[6,7,8],
-      [0,3,6],[1,4,7],[2,5,8],
-      [0,4,8],[2,4,6]
-    ];
-
-    submitBtn.addEventListener("click", () => {
-      player1 = player1Input.value.trim() || "Player1";
-      player2 = player2Input.value.trim() || "Player2";
-      document.querySelector(".input-container").style.display = "none";
-      board.style.display = "grid";
-      heading.style.display = "block";
-      messageDiv.innerText = `${player1}, you're up`;
-      gameActive = true;
-    });
-
-    cells.forEach((cell, index) => {
-      cell.addEventListener("click", () => {
-        if (!gameActive || gameState[index] !== "") return;
-
-        gameState[index] = currentPlayer;
-        cell.innerText = currentPlayer;
-
-        if (checkWin()) {
-          const winner = currentPlayer === "x" ? player1 : player2;
-          messageDiv.innerText = `${winner} congratulations you won!`;
-          gameActive = false;
-          return;
-        }
-
-        currentPlayer = currentPlayer === "x" ? "o" : "x";
-        messageDiv.innerText = `${currentPlayer === "x" ? player1 : player2}, you're up`;
-      });
-    });
-
-    function checkWin() {
-      return winConditions.some(condition => {
-        const [a, b, c] = condition;
-        return gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c];
-      });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
+
