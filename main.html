@@ -4,134 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tic Tac Toe</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-
-    h1 {
-      margin-bottom: 10px;
-    }
-
-    input {
-      margin: 5px;
-      padding: 8px;
-    }
-
-    #submit {
-      margin: 10px;
-      padding: 8px 16px;
-    }
-
-    .board {
-      display: grid;
-      grid-template-columns: repeat(3, 100px);
-      grid-gap: 5px;
-      justify-content: center;
-      margin-top: 20px;
-    }
-
-    .cell {
-      width: 100px;
-      height: 100px;
-      font-size: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #444;
-      cursor: pointer;
-    }
-
-    #result {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Tic Tac Toe</h1>
+  <div class="container">
+    <h1>Tic Tac Toe</h1>
 
-  <input type="text" id="player1" placeholder="Enter Player 1 Name" />
-  <input type="text" id="player2" placeholder="Enter Player 2 Name" />
-  <button id="submit">Start Game</button>
+    <input type="text" id="player1" placeholder="Enter Player 1 Name" />
+    <input type="text" id="player2" placeholder="Enter Player 2 Name" />
+    <button id="submit">Start Game</button>
 
-  <div class="board" id="board"></div>
-  <div id="result"></div>
+    <div class="message"></div>
 
-  <script>
-    const board = document.getElementById("board");
-    const result = document.getElementById("result");
-    const submitBtn = document.getElementById("submit");
+    <div class="board" id="board" style="display: none;"></div>
+  </div>
 
-    let player1 = "";
-    let player2 = "";
-    let currentPlayer = "X";
-    let gameActive = false;
-    let moves = 0;
-    const gameState = Array(9).fill("");
-
-    const winningCombos = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-      [0, 3, 6], [1, 4, 7], [2, 5, 8], // cols
-      [0, 4, 8], [2, 4, 6]             // diagonals
-    ];
-
-    submitBtn.addEventListener("click", () => {
-      player1 = document.getElementById("player1").value || "Player 1";
-      player2 = document.getElementById("player2").value || "Player 2";
-
-      board.innerHTML = "";
-      result.textContent = "";
-      gameActive = true;
-      moves = 0;
-      currentPlayer = "X";
-
-      for (let i = 0; i < 9; i++) {
-        gameState[i] = "";
-        const cell = document.createElement("div");
-        cell.classList.add("cell");
-        cell.dataset.index = i;
-        board.appendChild(cell);
-      }
-    });
-
-    board.addEventListener("click", (e) => {
-      if (!gameActive) return;
-
-      const cell = e.target;
-      const index = cell.dataset.index;
-
-      if (!index || gameState[index] !== "") return;
-
-      gameState[index] = currentPlayer;
-      cell.textContent = currentPlayer;
-      moves++;
-
-      if (checkWin()) {
-        gameActive = false;
-        result.textContent = currentPlayer === "X" ? `${player1} wins!` : `${player2} wins!`;
-        return;
-      }
-
-      if (moves === 9) {
-        result.textContent = "It's a draw!";
-        gameActive = false;
-        return;
-      }
-
-      currentPlayer = currentPlayer === "X" ? "O" : "X";
-    });
-
-    function checkWin() {
-      return winningCombos.some(combo => {
-        const [a, b, c] = combo;
-        return gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c];
-      });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
-
