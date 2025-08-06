@@ -1,40 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tic Tac Toe</title>
-  <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  <div class="container">
-    <h1>Tic Tac Toe</h1>
+	<!-- the entire body must be written by student -->
+	 <div class="container">
+        <h1>Tic Tac Toe</h1>
+        
+        <div id="player-inputs">
+            <input type="text" id="player1" placeholder="Enter Player 1 Name">
+            <input type="text" id="player2" placeholder="Enter Player 2 Name">
+            <button id="submit">Start Game</button>
+        </div>
 
-    <div id="player-form">
-      <label for="player-1">Player 1</label>
-      <input id="player-1" type="text" placeholder="enter name" />
-      <label for="player-2">Player 2</label>
-      <input id="player-2" type="text" placeholder="enter name" />
-      <button id="submit">Start Game</button>
+        <div id="game" style="display: none;">
+            <p class="message"></p>
+            <div class="board">
+                <div class="cell" id="1"></div>
+                <div class="cell" id="2"></div>
+                <div class="cell" id="3"></div>
+                <div class="cell" id="4"></div>
+                <div class="cell" id="5"></div>
+                <div class="cell" id="6"></div>
+                <div class="cell" id="7"></div>
+                <div class="cell" id="8"></div>
+                <div class="cell" id="9"></div>
+            </div>
+        </div>
     </div>
+    <script type="text/javascript" src="./script.js">
+</script>
 
-    <div id="game" style="display:none;">
-      <div class="message"></div>
-      <div class="board">
-        <div class="cell" id="1"></div>
-        <div class="cell" id="2"></div>
-        <div class="cell" id="3"></div>
-        <div class="cell" id="4"></div>
-        <div class="cell" id="5"></div>
-        <div class="cell" id="6"></div>
-        <div class="cell" id="7"></div>
-        <div class="cell" id="8"></div>
-        <div class="cell" id="9"></div>
-      </div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
 </body>
+
 </html>
 

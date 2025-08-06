@@ -1,68 +1,65 @@
-let currentPlayer = 'X';
-let player1 = '';
-let player2 = '';
-let board = ['', '', '', '', '', '', '', '', ''];
-let gameOver = false;
+document.addEventListener("DOMContentLoaded", () => {
+    const player1Input = document.getElementById("player1");
+    const player2Input = document.getElementById("player2");
+    const submitBtn = document.getElementById("submit");
+    const message = document.querySelector(".message");
+    const gameDiv = document.getElementById("game");
+    const boardCells = document.querySelectorAll(".cell");
 
-document.getElementById('submit').addEventListener('click', () => {
-  player1 = document.getElementById('player-1').value.trim();
-  player2 = document.getElementById('player-2').value.trim();
-  if (player1 === '' || player2 === '') {
-    alert("Please enter both player names");
-    return;
-  }
+    let players = ["Player 1", "Player 2"];
+    let currentPlayer = "x";
+    let gameActive = false;
+    let boardState = ["", "", "", "", "", "", "", "", ""];
 
-  document.getElementById('player-form').style.display = 'none';
-  document.getElementById('game').style.display = 'block';
-  updateMessage();
-});
+    submitBtn.addEventListener("click", () => {
+        players = [
+            player1Input.value.trim() || "Player 1",
+            player2Input.value.trim() || "Player 2"
+        ];
+        
+        gameDiv.style.display = "block";
+        message.textContent = ⁠ ${players[0]}, you're up! ⁠;
+        gameActive = true;
 
-function updateMessage() {
-  const messageDiv = document.querySelector('.message');
-  if (!gameOver) {
-    const name = currentPlayer === 'X' ? player1 : player2;
-    messageDiv.textContent = `${name}, you're up`;
-  }
-}
+        // Reset board
+        boardState.fill("");
+        boardCells.forEach(cell => {
+            cell.textContent = "";
+        });
 
-function checkWinner() {
-  const winCombinations = [
-    [0,1,2], [3,4,5], [6,7,8],
-    [0,3,6], [1,4,7], [2,5,8],
-    [0,4,8], [2,4,6]
-  ];
+        currentPlayer = "x";  // Reset to first player
+    });
 
-  for (const combo of winCombinations) {
-    const [a,b,c] = combo;
-    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      const winner = board[a] === 'X' ? player1 : player2;
-      document.querySelector('.message').textContent = `${winner}, congratulations you won!`;
-      document.getElementById(`${a+1}`).classList.add('winner');
-      document.getElementById(`${b+1}`).classList.add('winner');
-      document.getElementById(`${c+1}`).classList.add('winner');
-      gameOver = true;
-      return;
+    boardCells.forEach((cell, index) => {
+        cell.addEventListener("click", () => {
+            if (!gameActive || boardState[index] !== "") return;
+
+            boardState[index] = currentPlayer;
+            cell.textContent = currentPlayer;
+
+            setTimeout(() => {
+                if (checkWinner()) {
+                    message.textContent = ⁠ ${currentPlayer === "x" ? players[0] : players[1]} congratulations you won! ⁠;
+                    gameActive = false;
+                    return;
+                }
+
+                currentPlayer = currentPlayer === "x" ? "o" : "x";
+                message.textContent = ⁠ ${currentPlayer === "x" ? players[0] : players[1]}, you're up! ⁠;
+            }, 50);
+        });
+    });
+
+    function checkWinner() {
+        const winPatterns = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        return winPatterns.some(pattern => {
+            const [a, b, c] = pattern;
+            return boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c];
+        });
     }
-  }
-
-  if (!board.includes('')) {
-    document.querySelector('.message').textContent = "It's a draw!";
-    gameOver = true;
-  }
-}
-
-document.querySelectorAll('.cell').forEach(cell => {
-  cell.addEventListener('click', () => {
-    const index = parseInt(cell.id) - 1;
-    if (board[index] || gameOver) return;
-
-    board[index] = currentPlayer;
-    cell.textContent = currentPlayer;
-
-    checkWinner();
-    if (!gameOver) {
-      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-      updateMessage();
-    }
-  });
 });
